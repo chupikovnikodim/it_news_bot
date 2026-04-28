@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-RSS_URL = "https://feeds.feedburner.com/TheHackersNews"
+RSS_URL = "https://dou.ua/lenta/feed/" 
 
 response = requests.get(RSS_URL, timeout=10)
 root = ET.fromstring(response.content)
