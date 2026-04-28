@@ -1,9 +1,11 @@
 import requests
+import os
 
-TOKEN = "ТУТ_ТВОЙ_TOKEN"
-CHAT_ID = "ТУТ_CHAT_ID"
+TOKEN = os.getenv("TG_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+API_KEY = os.getenv("OPENAI_API_KEY")
 
-url = "https://newsapi.org/v2/everything?q=IT OR AI OR backend OR fullstack&language=en&sortBy=publishedAt&pageSize=5&apiKey=ТУТ_API_KEY"
+url = f"https://newsapi.org/v2/everything?q=IT OR AI OR backend OR fullstack&language=en&sortBy=publishedAt&pageSize=5&apiKey={API_KEY}"
 
 news = requests.get(url).json()
 
