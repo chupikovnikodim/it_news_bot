@@ -5,24 +5,29 @@ import xml.etree.ElementTree as ET
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-RSS_URL = "https://dou.ua/lenta/feed/"
+def translate_to_ua(text):
+    url = "https://translate.googleapis.com/translate_a/single"
+    params = {
+        "client": "gtx",
+        "sl": "en",
+        "tl": "uk",
+        "dt": "t",
+        "q": text
+    }
+    r = requests.get(url, params=params)
+    return r.json()[0][0][0]
 
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
-}
-
-response = requests.get(RSS_URL, headers=headers, timeout=10)
-print(response.status_code)
-print(response.text[:300])  # залиш для дебагу, потім можна прибрати
-
+RSS_URL = "https://techcrunch.com/feed/"
+response = requests.get(RSS_URL, timeout=10)
 root = ET.fromstring(response.content)
 items = root.findall("./channel/item")[:5]
 
-message = "📰 IT новини з DOU:\n\n"
+message = "📰 IT новини:\n\n"
 for item in items:
     title = item.findtext("title", "")
     link = item.findtext("link", "")
-    message += f"*{title}*\n{link}\n\n"
+    translated = translate_to_ua(title)
+    message += f"*{translated}*\n{link}\n\n"
 
 result = requests.post(
     f"https://api.telegram.org/bot{TOKEN}/sendMessage",
