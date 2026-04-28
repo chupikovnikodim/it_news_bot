@@ -1,13 +1,13 @@
 import requests
 import os
 
-OPENAI_KEY = os.getenv("OPENAI_KEY")
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
 def get_news():
     url = "https://api.openai.com/v1/responses"
 
     headers = {
-        "Authorization": f"Bearer {OPENAI_KEY}",
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json"
     }
 
