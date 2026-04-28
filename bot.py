@@ -1,25 +1,20 @@
 import requests
-import os
 
-OPENAI_KEY = os.getenv("OPENAI_API_KEY")
+TOKEN = "ТУТ_ТВОЙ_TOKEN"
+CHAT_ID = "ТУТ_CHAT_ID"
 
-def get_news():
-    url = "https://api.openai.com/v1/responses"
+url = "https://newsapi.org/v2/everything?q=IT OR AI OR backend OR fullstack&language=en&sortBy=publishedAt&pageSize=5&apiKey=ТУТ_API_KEY"
 
-    headers = {
-        "Authorization": f"Bearer {OPENAI_API_KEY}",
-        "Content-Type": "application/json"
-    }
+news = requests.get(url).json()
 
-    data = {
-        "model": "gpt-4.1-mini",
-        "input": "Дай короткий IT-дайджест за сьогодні для розробника"
-    }
+articles = news.get("articles", [])
 
-    response = requests.post(url, headers=headers, json=data)
+message = "📰 IT новини:\n\n"
 
-    result = response.json()
+for a in articles:
+    message += f"{a['title']}\n{a['url']}\n\n"
 
-    print(result)
-
-    return result["output"][0]["content"][0]["text"]
+requests.post(
+    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+    data={"chat_id": CHAT_ID, "text": message}
+)
