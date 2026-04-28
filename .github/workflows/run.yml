@@ -23,7 +23,7 @@ jobs:
 
       - name: Run bot
         env:
-          TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TOKEN: ${{ secrets.TG_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: python bot.py
